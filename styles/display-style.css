@@ -98,12 +98,22 @@ article{
   padding: 16px;
 }
 
-.practice-section, .more-practice-section{
+.practice-section, .more-practice-section, .pie-practice-section{
   padding: 16px;
 }
 .logout-button{
   background-color: #9E9E9E;
   color:white;
+}
+
+.donut-arc text{
+  font-size: 10px;
+  font-weight: 500;
+  text-anchor: middle;
+}
+
+.donut-arc path{
+  stroke: #ffffff;
 }
 
 /******************************************************************************/

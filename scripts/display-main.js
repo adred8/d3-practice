@@ -128,131 +128,7 @@ $(document).ready( function(){
   });
 });
 
-////////////////////////////////////////////////////////////////////////////////
-// Graphs display
-////////////////////////////////////////////////////////////////////////////////
-// var svgWidth = 650;
-// var svgHeight = 400;
-// var studentCanvas = d3.select(".practice-section").append("svg")
-//   .attr("width", svgWidth)
-//   .attr("height", svgHeight)
-//   .style("background", "#FFFDE7")
-//   .style("box-shadow", "1px 1px 6px 1px lightgray")
-//   .append("g")
-//     .attr("transform", "translate(30, -50)");
-//
-// console.log(studentDataSub1);
-// var studentBarWidth = 10;
-// var studentBarOffset = 2;
-// var studentColorScale = d3.scaleLinear()
-//   .domain([0, d3.max(subjectDisplay)])
-//   .range(["#FFEB3B", "#00BCD4"]);
-// var studentYScale = d3.scaleLinear()
-//   .domain([0, 100])
-//   .range([0, (svgHeight/2)]);
-// var yAxisScale = d3.scaleLinear()
-//   .domain([0, 100])
-//   .range([svgHeight/2, 0]);
-// var yAxis = d3.axisLeft(yAxisScale);
-// var studentXScale = d3.scaleBand()
-//   .domain(d3.range(1, 51))
-//   .rangeRound([0, (svgWidth-30)]);
-// var xAxis = d3.axisBottom(studentXScale);
-//
-// studentCanvas.selectAll("rect")
-//   .data(subjectDisplay)
-//   .enter()
-//   .append("rect")
-//     .attr("fill", function(d){ return studentColorScale(d); })
-//     .attr("width", studentBarWidth)
-//     .attr("height", function(d){ return studentYScale(d); })
-//     .attr("x", function(d, i){ return i* ( studentBarWidth + studentBarOffset ); })
-//     .attr("y", function(d){ return (svgHeight-studentYScale(d)); })
-//     .on("mouseover", function(d, i){
-//       console.log(3);
-//       tooltip.transition()
-//         .style("opacity", 1);
-//       tooltip.text("Student " + (i + 1) + " : " + d + " marks")
-//         .style("left", (d3.event.pageX + 15) + 'px')
-//         .style("top", (d3.event.pageY + 15) + 'px')
-//       d3.select(this)
-//         .style("opacity", ".5");
-//     })
-//     .on("mouseout", function(d){
-//       tooltip.transition()
-//         .style("opacity", "0");
-//       d3.select(this)
-//         .style("opacity", "1");
-//     })
-// studentCanvas.append("g")
-//   .attr("transform", "translate(0, 200)")
-//   .call(yAxis);
-// studentCanvas.append("g")
-//   .attr("transform", "translate(-10, 410)")
-//   .call(xAxis);
-//
-// var tooltip = d3.select(".practice-section").append("section")
-//   .style("position", "absolute")
-//   .style("min-width", "30px")
-//   .style("background", "#f4f4f4")
-//   .style("padding", "5 15px")
-//   .style("border", "1px #333 solid")
-//   .style("border-radius", "1px")
-//   .style("opacity", "0")
-//   .style("padding", "2px")
-//   .style("text-align", "center")
-//
-//
-// var compareCanvas = d3.select(".more-practice-section").append("svg")
-// .attr("width", svgWidth)
-// .attr("height", svgHeight)
-// .style("background", "#FFFDE7")
-// .style("box-shadow", "1px 1px 6px 1px lightgray")
-// .append("g")
-//   .attr("transform", "translate(50, 230)");
-//
-// var compareXScale = d3.scaleLinear()
-//   .domain([0, 50])
-//   .range([0, (svgWidth - 100)]);
-// var compareXAxis = d3.axisBottom(compareXScale);
-// var compareYLabel = ["0 - 20", "21 - 40", "41 - 60", "61 - 80", "81 - 100"];
-// var compareYScale = d3.scaleBand()
-//   .domain(compareYLabel)
-//   .rangeRound([0, 125]);
-// var compareYAxis = d3.axisLeft(compareYScale);
-//
-// var compareBarHeight = 20;
-// var compareBarOffset= 5;
-// compareCanvas.selectAll("rect")
-//   .data(compareDisplay)
-//   .enter()
-//   .append("rect")
-//     .attr("fill", "#E91E63")
-//     .attr("height", compareBarHeight)
-//     .attr("width", function(d){ return compareXScale(d); })
-//     .attr("y", function(d, i){ return i* (compareBarHeight + compareBarOffset); })
-//     .on("mouseover", function(d){
-//       console.log(3);
-//       tooltip.transition()
-//         .style("opacity", 1);
-//       tooltip.text(d)
-//         .style("left", (d3.event.pageX + 15) + 'px')
-//         .style("top", (d3.event.pageY + 15) + 'px')
-//       d3.select(this)
-//         .style("opacity", ".5");
-//     })
-//     .on("mouseout", function(d){
-//       tooltip.transition()
-//         .style("opacity", "0");
-//       d3.select(this)
-//         .style("opacity", "1");
-//     });
-// compareCanvas.append("g")
-//   .call(compareYAxis);
-// compareCanvas.append("g")
-//   .attr("transform", "translate(0, 130)")
-//   .call(compareXAxis);
-
+console.log(compareDisplay);
 /////////////////////////////////////////////////////////////////////////////////
 // Graph update function
 ////////////////////////////////////////////////////////////////////////////////
@@ -319,6 +195,7 @@ function graphDisplay(subjectDisplay, compareDisplay){
     .call(xAxis);
 
   var tooltip = d3.select(".practice-section").append("section")
+    .attr("class", "tooltip")
     .style("position", "absolute")
     .style("min-width", "30px")
     .style("background", "#f4f4f4")
@@ -330,184 +207,74 @@ function graphDisplay(subjectDisplay, compareDisplay){
     .style("text-align", "center")
 
 
+
+  //////////////////////////////////////////////////////////////////////////////
+  // second graph display
+  //////////////////////////////////////////////////////////////////////////////
+  var radius = svgHeight/2;
+
+  //defining svg
   var compareCanvas = d3.select(".more-practice-section").append("svg")
   .attr("width", svgWidth)
   .attr("height", svgHeight)
   .style("background", "#FFFDE7")
   .style("box-shadow", "1px 1px 6px 1px lightgray")
   .append("g")
-    .attr("transform", "translate(50, 230)");
+    .attr("transform", "translate(330, 200)");
 
-  var compareXScale = d3.scaleLinear()
-    .domain([0, 50])
-    .range([0, (svgWidth - 100)]);
-  var compareXAxis = d3.axisBottom(compareXScale);
+  //arc generator
+  var arc = d3.arc()
+    .outerRadius(radius - 60)
+    .innerRadius(radius - 100);
+
+  //pie generator
+  var pie = d3.pie()
+    .sort(null)
+    .value(function(d) { return d; });
+
+  var compareColorScale = d3.scaleLinear()
+    .domain([0, 5])
+    .range(["#E91E63", "#F8BBD0"]);
+
   var compareYLabel = ["0 - 20", "21 - 40", "41 - 60", "61 - 80", "81 - 100"];
-  var compareYScale = d3.scaleBand()
-    .domain(compareYLabel)
-    .rangeRound([0, 125]);
-  var compareYAxis = d3.axisLeft(compareYScale);
-
-  var compareBarHeight = 20;
-  var compareBarOffset= 5;
-  compareCanvas.selectAll("rect")
-    .data(compareDisplay)
+  var theArc = compareCanvas.selectAll(".donut-arc")
+    .data(pie(compareDisplay))
     .enter()
-    .append("rect")
-      .attr("fill", "#E91E63")
-      .attr("height", compareBarHeight)
-      .attr("width", function(d){ return compareXScale(d); })
-      .attr("y", function(d, i){ return i* (compareBarHeight + compareBarOffset); })
-      .on("mouseover", function(d){
-        console.log(3);
-        tooltip.transition()
-          .style("opacity", 1);
-        tooltip.text(d)
-          .style("left", (d3.event.pageX + 15) + 'px')
-          .style("top", (d3.event.pageY + 15) + 'px')
-        d3.select(this)
-          .style("opacity", ".5");
-      })
-      .on("mouseout", function(d){
-        tooltip.transition()
-          .style("opacity", "0");
-        d3.select(this)
-          .style("opacity", "1");
-      });
-  compareCanvas.append("g")
-    .call(compareYAxis);
-  compareCanvas.append("g")
-    .attr("transform", "translate(0, 130)")
-    .call(compareXAxis);
+    .append("g")
+    .attr("class", "donut-arc");
+
+  theArc.append("path")
+    .attr("d", arc)
+    .attr("fill", function(d, i){
+      return compareColorScale(i);
+    })
+    // .on("mouseover", function(d, i){
+    //   console.log(3);
+    //   tooltip.transition()
+    //     .style("opacity", 1);
+    //   // compareYLabel[i] + " : " + d
+    //   tooltip.text(function(d, i){ return;})
+    //     .style("left", (d3.event.pageX + 15) + 'px')
+    //     .style("top", (d3.event.pageY + 15) + 'px')
+    //   d3.select(this)
+    //     .style("opacity", ".5");
+    // })
+    // .on("mouseout", function(d){
+    //   tooltip.transition()
+    //     .style("opacity", "0");
+    //   d3.select(this)
+    //     .style("opacity", "1");
+    // });
+
+
+  theArc.append("text")
+    .attr("transform", function(d){
+      return "translate(" + arc.centroid(d) + ")";
+    })
+    .attr("dy", "1.5em")
+    .text(function(d) { return d.data; })
+    .style("font-weight", "500")
+    .style("font-size", "13px");
+
 }
 graphDisplay(subjectDisplay, compareDisplay);
-// (function(){
-//
-//   var svgWidth = 650;
-//   var svgHeight = 400;
-//   var studentCanvas = d3.select(".practice-section").append("svg")
-//     .attr("width", svgWidth)
-//     .attr("height", svgHeight)
-//     .style("background", "#FFFDE7")
-//     .style("box-shadow", "1px 1px 6px 1px lightgray")
-//     .append("g")
-//       .attr("transform", "translate(30, -50)");
-//
-//   console.log(studentDataSub1);
-//   var studentBarWidth = 10;
-//   var studentBarOffset = 2;
-//   var studentColorScale = d3.scaleLinear()
-//     .domain([0, d3.max(subjectDisplay)])
-//     .range(["#FFEB3B", "#00BCD4"]);
-//   var studentYScale = d3.scaleLinear()
-//     .domain([0, 100])
-//     .range([0, (svgHeight/2)]);
-//   var yAxisScale = d3.scaleLinear()
-//     .domain([0, 100])
-//     .range([svgHeight/2, 0]);
-//   var yAxis = d3.axisLeft(yAxisScale);
-//   var studentXScale = d3.scaleBand()
-//     .domain(d3.range(1, 51))
-//     .rangeRound([0, (svgWidth-30)]);
-//   var xAxis = d3.axisBottom(studentXScale);
-//
-//   studentCanvas.selectAll("rect")
-//     .data(subjectDisplay)
-//     .enter()
-//     .append("rect")
-//       .attr("fill", function(d){ return studentColorScale(d); })
-//       .attr("width", studentBarWidth)
-//       .attr("height", function(d){ return studentYScale(d); })
-//       .attr("x", function(d, i){ return i* ( studentBarWidth + studentBarOffset ); })
-//       .attr("y", function(d){ return (svgHeight-studentYScale(d)); })
-//       .on("mouseover", function(d, i){
-//         console.log(3);
-//         tooltip.transition()
-//           .style("opacity", 1);
-//         tooltip.text("Student " + (i + 1) + " : " + d + " marks")
-//           .style("left", (d3.event.pageX + 15) + 'px')
-//           .style("top", (d3.event.pageY + 15) + 'px')
-//         d3.select(this)
-//           .style("opacity", ".5");
-//       })
-//       .on("mouseout", function(d){
-//         tooltip.transition()
-//           .style("opacity", "0");
-//         d3.select(this)
-//           .style("opacity", "1");
-//       })
-//   studentCanvas.append("g")
-//     .attr("transform", "translate(0, 200)")
-//     .call(yAxis);
-//   studentCanvas.append("g")
-//     .attr("transform", "translate(-10, 410)")
-//     .call(xAxis);
-//
-//   var tooltip = d3.select(".practice-section").append("section")
-//     .style("position", "absolute")
-//     .style("min-width", "30px")
-//     .style("background", "#f4f4f4")
-//     .style("padding", "5 15px")
-//     .style("border", "1px #333 solid")
-//     .style("border-radius", "1px")
-//     .style("opacity", "0")
-//     .style("padding", "2px")
-//     .style("text-align", "center")
-//
-//
-//   var compareCanvas = d3.select(".more-practice-section").append("svg")
-//   .attr("width", svgWidth)
-//   .attr("height", svgHeight)
-//   .style("background", "#FFFDE7")
-//   .style("box-shadow", "1px 1px 6px 1px lightgray")
-//   .append("g")
-//     .attr("transform", "translate(50, 230)");
-//
-//   var compareXScale = d3.scaleLinear()
-//     .domain([0, 50])
-//     .range([0, (svgWidth - 100)]);
-//   var compareXAxis = d3.axisBottom(compareXScale);
-//   var compareYLabel = ["0 - 20", "21 - 40", "41 - 60", "61 - 80", "81 - 100"];
-//   var compareYScale = d3.scaleBand()
-//     .domain(compareYLabel)
-//     // .domain(d3.range(1, 6))
-//     .rangeRound([0, 125]);
-//   // var compareXAxisScale = d3.scaleLinear()
-//   //   .domain([0, 100])
-//   //   .range([svgHeight/2, 0]);
-//   var compareYAxis = d3.axisLeft(compareYScale);
-//
-//   var compareBarHeight = 20;
-//   var compareBarOffset= 5;
-//   compareCanvas.selectAll("rect")
-//     .data(compareDisplay)
-//     .enter()
-//     .append("rect")
-//       .attr("fill", "#E91E63")
-//       .attr("height", compareBarHeight)
-//       // .attr("width", function(d){ return d* 20; })
-//       .attr("width", function(d){ return compareXScale(d); })
-//       .attr("y", function(d, i){ return i* (compareBarHeight + compareBarOffset); })
-//       .on("mouseover", function(d){
-//         console.log(3);
-//         tooltip.transition()
-//           .style("opacity", 1);
-//         tooltip.text(d)
-//           .style("left", (d3.event.pageX + 15) + 'px')
-//           .style("top", (d3.event.pageY + 15) + 'px')
-//         d3.select(this)
-//           .style("opacity", ".5");
-//       })
-//       .on("mouseout", function(d){
-//         tooltip.transition()
-//           .style("opacity", "0");
-//         d3.select(this)
-//           .style("opacity", "1");
-//       });
-//   compareCanvas.append("g")
-//     // .attr("transform", "translate()")
-//     .call(compareYAxis);
-//   compareCanvas.append("g")
-//     .attr("transform", "translate(0, 130)")
-//     .call(compareXAxis);
-// })();
