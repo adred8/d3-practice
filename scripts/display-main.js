@@ -60,23 +60,23 @@ for (var i = 0; i < 50; i++){
   }
 
   if (studentData[i].sub3 < 21){
-    sortedStudentDataSub3["0-20"]++;
+    sortedStudentDataSub3["0 - 20"]++;
     sortedSub3[0]++;
   }
   else if (studentData[i].sub3 < 41) {
-    sortedStudentDataSub3["21-40"]++;
+    sortedStudentDataSub3["21 - 40"]++;
     sortedSub3[1]++;
   }
   else if (studentData[i].sub3 < 61) {
-    sortedStudentDataSub3["41-60"]++;
+    sortedStudentDataSub3["41 - 60"]++;
     sortedSub3[2]++;
   }
   else if (studentData[i].sub3 < 81) {
-    sortedStudentDataSub3["61-80"]++;
+    sortedStudentDataSub3["61 - 80"]++;
     sortedSub3[3]++;
   }
   else{
-    sortedStudentDataSub3["81-100"]++;
+    sortedStudentDataSub3["81 - 100"]++;
     sortedSub3[4]++;
   }
 }
@@ -92,8 +92,25 @@ for (var i = 0; i < 50; i++){
   studentDataSub2.push(studentData[i].sub2);
   studentDataSub3.push(studentData[i].sub3)
 }
+console.log("studentData = ", studentData);
+console.log("sortedStudentData", sortedStudentData);
+console.log("sortedSub1", sortedSub1);
+var compareLabel = ["0-20", "21-40", "41-60", "61-80", "81-100"];
+var sortedObjectSub1 = [];
+var sortedObjectSub2 = [];
+var sortedObjectSub3 = [];
+for (var i = 0; i < 5; i++){
+  arr = {"label": compareLabel[i], "value": sortedSub1[i]};
+  sortedObjectSub1.push(arr);
+  arr = {"label": compareLabel[i], "value": sortedSub2[i]};
+  sortedObjectSub2.push(arr);
+  arr = {"label": compareLabel[i], "value": sortedSub3[i]};
+  sortedObjectSub3.push(arr);
+}
+console.log("sortedObjectSub1", sortedObjectSub1);
+
 var subjectDisplay = studentDataSub1;
-var compareDisplay = sortedSub1;
+var compareDisplay = sortedObjectSub1;
 
 $(document).ready( function(){
   if (document.cookie !== "username=admin"){
@@ -107,21 +124,22 @@ $(document).ready( function(){
     if (selectedVal === "subject 1"){
       console.log("sub1");
       subjectDisplay = studentDataSub1;
-      compareDisplay = sortedSub1;
+      // compareDisplay = sortedSub1;
+      compareDisplay = sortedObjectSub1;
       d3.selectAll("svg").remove();
       graphDisplay(subjectDisplay, compareDisplay);
     }
     if (selectedVal === "subject 2"){
       console.log("sub2");
       subjectDisplay = studentDataSub2;
-      compareDisplay = sortedSub2;
+      compareDisplay = sortedObjectSub2;
       d3.selectAll("svg").remove();
       graphDisplay(subjectDisplay, compareDisplay);
     }
     if (selectedVal === "subject 3"){
       console.log("sub3");
       subjectDisplay = studentDataSub3;
-      compareDisplay = sortedSub3;
+      compareDisplay = sortedObjectSub3;
       d3.selectAll("svg").remove();
       graphDisplay(subjectDisplay, compareDisplay);
     }
@@ -230,7 +248,8 @@ function graphDisplay(subjectDisplay, compareDisplay){
   //pie generator
   var pie = d3.pie()
     .sort(null)
-    .value(function(d) { return d; });
+    // .value(function(d) { return d; });
+    .value(function(d) { return d.value; });
 
   var compareColorScale = d3.scaleLinear()
     .domain([0, 5])
@@ -239,6 +258,7 @@ function graphDisplay(subjectDisplay, compareDisplay){
   var compareYLabel = ["0 - 20", "21 - 40", "41 - 60", "61 - 80", "81 - 100"];
   var theArc = compareCanvas.selectAll(".donut-arc")
     .data(pie(compareDisplay))
+    // .data(pie(sortedObjectSub1))
     .enter()
     .append("g")
     .attr("class", "donut-arc");
@@ -248,33 +268,33 @@ function graphDisplay(subjectDisplay, compareDisplay){
     .attr("fill", function(d, i){
       return compareColorScale(i);
     })
-    // .on("mouseover", function(d, i){
-    //   console.log(3);
-    //   tooltip.transition()
-    //     .style("opacity", 1);
-    //   // compareYLabel[i] + " : " + d
-    //   tooltip.text(function(d, i){ return;})
-    //     .style("left", (d3.event.pageX + 15) + 'px')
-    //     .style("top", (d3.event.pageY + 15) + 'px')
-    //   d3.select(this)
-    //     .style("opacity", ".5");
-    // })
-    // .on("mouseout", function(d){
-    //   tooltip.transition()
-    //     .style("opacity", "0");
-    //   d3.select(this)
-    //     .style("opacity", "1");
-    // });
+    .on("mouseover", function(d){
+      console.log(3);
+      tooltip.transition()
+        .style("opacity", 1);
+      // compareYLabel[i] + " : " + d
+      tooltip.text( d.data.label + " : " + d.data.value)
+        .style("left", (d3.event.pageX + 15) + 'px')
+        .style("top", (d3.event.pageY + 15) + 'px')
+      d3.select(this)
+        .style("opacity", ".5");
+    })
+    .on("mouseout", function(d){
+      tooltip.transition()
+        .style("opacity", "0");
+      d3.select(this)
+        .style("opacity", "1");
+    });
 
+  console.log("pie = ", pie(sortedObjectSub1));
 
   theArc.append("text")
     .attr("transform", function(d){
       return "translate(" + arc.centroid(d) + ")";
     })
     .attr("dy", "1.5em")
-    .text(function(d) { return d.data; })
+    .text(function(d) { return d.data.value; })
     .style("font-weight", "500")
     .style("font-size", "13px");
-
 }
 graphDisplay(subjectDisplay, compareDisplay);
